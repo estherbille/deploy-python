@@ -1,2 +1,2 @@
 #pour compresser les fichiers
-tar -czvf archive.tar.gz ~/deploy-python/flash-pytest-example-master
+tar -czvf flash-pytest-example-master.tar.gz ~/deploy-python/flash-pytest-example-master
