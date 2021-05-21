@@ -30,7 +30,7 @@
       copy:
         src: Dockerfile
         dest: /app_python
-        mode: 0644
+        mode: 0400
 
     - name: Copier le fichier compressé sur la machine distante
       copy:
