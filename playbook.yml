@@ -18,9 +18,6 @@
 
     - debug:
         var=result_install
-        
-    - name: Compresser fichier
-      shell: sudo bash build.sh
       
     - name: Create an app directory sur la machine distante
       file:
