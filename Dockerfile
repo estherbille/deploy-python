@@ -1,7 +1,13 @@
-FROM openjdk:11
+FROM python:latest
 
 RUN mkdir /app
 
+COPY requirements.txt ./
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY  app.py /app
+
 WORKDIR /app
 
-CMD java helloWorld
+CMD python app.py
