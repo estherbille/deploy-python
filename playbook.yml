@@ -20,7 +20,7 @@
         var=result_install
     
     - name: Compresser fichier
-      shell: tar -xzvf flash-pytest-example-master.tar.gz
+      shell: sudo bash build.sh
     
     - name: Create an app directory sur la machine distante
       file:
