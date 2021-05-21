@@ -1,0 +1,37 @@
+---
+- name: Deployer les applis sur la machine distante
+  hosts: all
+  remote_user: root
+
+  become: yes
+  tasks:
+    - name: Installation docker
+      shell: amazon-linux-extras install -y docker && systemctl start docker 
+      
+   - name: Installation python
+      shell: amazon-linux-extras install -y python3.8 && systemctl start python   
+      
+    - name: Create an app directory sur la machine distante
+      file:
+        path: /app
+        state: directory
+        owner: ec2-user
+        mode: 0777
+
+    - name: Copier le Dockerfile dans la machine distante
+      copy:
+        src: Dockerfile
+        dest: /app
+        mode: 0644
+
+    - name: Copier le fichier compressé sur la machine distante
+      copy:
+        src: flash-pytest-example-master.tar.gz
+        dest: /app
+        mode: 0400
+        
+    - name: Décompresser fichier compressé
+      shell: tar xzvf flash-pytest-example-master.tar.gz
+      register: result
+
+    - debug: var=result
