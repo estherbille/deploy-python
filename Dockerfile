@@ -1,13 +1,8 @@
-FROM python:latest
-
-RUN mkdir /app_python && tar -xzvf flask-pytest-example-master.tar.gz
-
-COPY requirements.txt ./
-
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY app.py /app_python
-
+FROM python:3.8
+RUN mkdir -p /app_python
+COPY flash-pytest-example-master.tar.gz /app_python
 WORKDIR /app_python
-
+RUN tar -xvf flash-pytest-example-master.tar.gz
+WORKDIR /app_python/application
+RUN pip install --no-cache-dir -r requirements.txt
 CMD python app.py
