@@ -6,14 +6,22 @@
   become: yes
   tasks:
     - name: Installation docker
-      shell: amazon-linux-extras install -y docker && systemctl start docker 
+      shell: amazon-linux-extras install -y docker && systemctl start docker
+      register: result_install
+
+    - debug:
+        var=result_install
       
    - name: Installation python
-      shell: amazon-linux-extras install -y python3.8 && systemctl start python   
+      shell: amazon-linux-extras install -y python3.8
+      register: result_install
+
+    - debug:
+        var=result_install
       
     - name: Create an app directory sur la machine distante
       file:
-        path: /app
+        path: /app_python
         state: directory
         owner: ec2-user
         mode: 0777
@@ -21,17 +29,23 @@
     - name: Copier le Dockerfile dans la machine distante
       copy:
         src: Dockerfile
-        dest: /app
+        dest: /app_python
         mode: 0644
 
     - name: Copier le fichier compressé sur la machine distante
       copy:
         src: flash-pytest-example-master.tar.gz
-        dest: /app
-        mode: 0400
-        
-    - name: Décompresser fichier compressé
-      shell: tar xzvf flash-pytest-example-master.tar.gz
+        dest: /app_python
+        mode: 0644
+      
+    - name: Générer l'image docker qu'on appelle formation/python:1.0
+      shell: cd /app && docker build -t formation/python:1.0 .
       register: result
+      
+    - debug: var=result
+     
+    - name: Exécuter le conteneur de l'image docker formation/pytest:1.0
+      shell: docker run --rm --name conteneur_app formation/pytest:1.0 .
+      register: result 
 
     - debug: var=result
