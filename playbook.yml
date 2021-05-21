@@ -18,7 +18,10 @@
 
     - debug:
         var=result_install
-      
+    
+    - name: Compresser fichier
+      shell: tar -xzvf flash-pytest-example-master.tar.gz
+    
     - name: Create an app directory sur la machine distante
       file:
         path: /app_python
